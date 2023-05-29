@@ -1,0 +1,23 @@
+<header>
+  <div class="container">
+    <a routerLink="/" class="logo">Order it </a>
+    <nav>
+      <ul>
+        <li><a routerLink="/login">Login</a></li>
+        <li class="menu-dashboard">
+          <a routerLink="/dashboard">Yube</a>
+          <div class="menu">
+            <a routerLink="/profile">Profile</a>
+            <a routerLink="/orders">Orders</a>
+            <a>Logout</a>
+          </div>
+        </li>
+
+        <li>
+          <a routerLink="/cart-page"> Cart<span *ngIf="cart">{{cart}}</span> </a>
+        </li>
+        <li></li>
+      </ul>
+    </nav>
+  </div>
+</header>
