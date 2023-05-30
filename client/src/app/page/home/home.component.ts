@@ -7,33 +7,28 @@ import { Food } from 'src/app/sharerd/models/Food';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
+
   foods: Food[] = [];
-
-
-
-  constructor(
-    private foodService: FoodService,
-    activatedRoute: ActivatedRoute
-  ) {
-
-    let foodObservable:Observable<Food[]>
+  constructor(private foodService: FoodService, activatedRoute: ActivatedRoute) {
+    let foodsObservalbe:Observable<Food[]>;
     activatedRoute.params.subscribe((params) => {
       if (params.searchTerm)
-        foodObservable = this.foodService.getAllFoodsBySearchName(
-          params.searchTerm
-        );
+        foodsObservalbe = this.foodService.getAllFoodsBySearchName(params.searchTerm);
+      // else if (params.tag)
+      //   foodsObservalbe = this.foodService.getAllFoodByTags(params.tag);
+      else
+        foodsObservalbe = foodService.getAll();
 
-
-        else if(params.tag)
-        foodObservable = this.foodService.getAllFoodByTags(params.tag)
-
-
-
-      else foodObservable = foodService.getAll();
-    });
+        foodsObservalbe.subscribe((serverFoods) => {
+          this.foods = serverFoods;
+        })
+    })
   }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+  }
+
 }
