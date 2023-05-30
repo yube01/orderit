@@ -14,7 +14,9 @@ tags?:Tags[]
 
 
   constructor( foodService:FoodService){
-    this.tags = foodService.getAllTag()
+    foodService.getAllTag().subscribe((serverFoods)=>{
+      this.tags = serverFoods
+    })
   }
 
   ngOnInit(): void {
