@@ -11,6 +11,8 @@ import { FoodPageComponent } from './page/food-page/food-page.component';
 import { CartPageComponent } from './page/cart-page/cart-page.component';
 import { TitleComponent } from './components/title/title.component';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { LoginComponent } from './page/login/login.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,12 +25,14 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
     FoodPageComponent,
     CartPageComponent,
     TitleComponent,
-    NotfoundComponent
+    NotfoundComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
     
   ],
   providers: [],
