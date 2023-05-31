@@ -20,8 +20,8 @@
                     <input type="password" placeholder="Password" formControlName="password">
                 </div>
             </div>
-            <div class="error-list" *ngIf="fc.passworderrors && isSubmitted">
-                <div *ngIf="fc.password.errors">Should not be empty</div>
+            <div class="error-list" *ngIf="fc.password.errors && isSubmitted">
+                <div *ngIf="fc.password.errors.password">Should not be empty</div>
                 
             </div>
             <div class="button">
