@@ -7,36 +7,25 @@
                [control]="fc.email"
                [showError]="isSubmitted"
                type="email"
-               label="Email"
+               label="Email">
 
+               </text-input>
 
-
-               >
+               <text-input
+               [control]="fc.password"
+               [showError]="isSubmitted"
+               type="password"
+               label="Password">
 
                </text-input>
          
-            <!-- <div class="input-container">
-                <label>Email</label>
-                <div>
-                   
-                </div>
-                
-            </div> -->
+          
            
 
-            <div class="input-container">
-                <label>Password</label>
-                <div>
-                    <input type="password" placeholder="Password" formControlName="password">
-                </div>
-            </div>
-            <div class="error-list" *ngIf="fc.password.errors && isSubmitted">
-                <div *ngIf="fc.password.errors.password">Should not be empty</div>
-                
-            </div>
-            <div class="button">
-                <button type="submit">Login</button>
-            </div>
+           
+            <default-button text="Login">
+
+            </default-button>
         </form>
     </div>
 </div>
