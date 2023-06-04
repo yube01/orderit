@@ -2,7 +2,11 @@ import Router from "express"
 import { sample_users } from "../data"
 import jwt from "jsonwebtoken"
 import ascyncHandler from "express-async-handler"
-import { UserModel } from "../models/user.model"
+import { User, UserModel } from "../models/user.model"
+import { BAD_REQUEST } from "../constants/http_status"
+import bycrypt from "bcryptjs"
+
+
 
 const router = Router()
 
@@ -35,14 +39,44 @@ router.post("/login",ascyncHandler(async(req,res)=>{
         res.send(generateTokenResponse(user))
 
     }else{
-        const BAD_REQUEST = 400;
+        
         res.status(BAD_REQUEST).send("User or password is invalid!");
     }
 
 
 }))
 
-const generateTokenResponse = (user:any)=>{
+
+router.post("/register",ascyncHandler(async(req,res)=>{
+    
+
+    const {name,email,password,address} = req.body;
+    const user = await UserModel.findOne({email})
+    if(user){
+        res.status(BAD_REQUEST).send("Email already used, please login")
+        return;
+
+    }
+
+    const hasedPassword = await bycrypt.hash(password,10);
+
+    const newUser:User = {
+        id:'',
+        name,
+        email: email.toLowerCase(),
+        password:hasedPassword,
+        address,
+        isAdmin:false
+
+    }
+    const dbUser =await UserModel.create(newUser)
+    res.send(generateTokenResponse(dbUser))
+
+
+
+}))
+
+const generateTokenResponse = (user:User)=>{
 
     const token = jwt.sign({
         email:user.email,isAdmin:user.isAdmin
@@ -50,8 +84,14 @@ const generateTokenResponse = (user:any)=>{
         expiresIn:"30d"
     })
 
-    user.token = token
-    return user
+    return{
+        id:user.id,
+        email: user.email,
+        address: user.address,
+        isAdmin:user.isAdmin,
+        name:user.name,
+        token:token
+    }
 
 
 }
