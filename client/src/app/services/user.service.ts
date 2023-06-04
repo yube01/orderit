@@ -3,8 +3,9 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { User } from '../sharerd/models/User';
 import { IuserLogin } from '../sharerd/interfaces/IuserLogin';
 import { HttpClient } from '@angular/common/http';
-import { USER_LOGIN_URLS } from '../sharerd/constants/urls';
+import { USER_LOGIN_URLS, USER_REGISTER_URLS } from '../sharerd/constants/urls';
 import { ToastrService } from 'ngx-toastr';
+import { IuserRegister } from '../sharerd/interfaces/IuserRegister';
 
 
 const USER_KEY = "user"
@@ -41,6 +42,29 @@ export class UserService {
     )
 
   }
+
+
+  register(userRegister:IuserRegister):Observable<User>
+  {
+    return this.http.post<User>(USER_REGISTER_URLS,userRegister).pipe(
+      tap({
+        next:(user)=>{
+          this.setUserToLocalStorage(user);
+          this.userSubject.next(user)
+          this.toastrService.success(
+            `Welcome to orderit ${user.name}`,
+            `Register Successful`
+          )
+        },
+        error:(errResponse)=>{
+          this.toastrService.error(errResponse.error,"Register Fail")
+        }
+      })
+    )
+
+  }
+
+
 
   logout(){
     this.userSubject.next(new User())
